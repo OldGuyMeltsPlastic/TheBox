@@ -84,7 +84,7 @@ Because the Octopus Max EZ organizes its high-power paths into discrete, isolate
 
 *   **⚠️ Unified Grounding Protocol:** The Negative (V-) terminals of all three Mean Well power supplies are wired together with a heavy-gauge jumper wire to create a single, unified reference ground across the entire machine chassis. Leaving the supplies unbonded will drop the tmc5160 reference baseline, causing erratic positioning errors or hardware damage.
 *   **Driver Jumper Mapping:** The Octopus Max EZ features pinless driver routing logic; no manual jumper caps are required beneath the EZ5160 drivers to activate SPI communication.
-*   **Sensorless Homing DIAG Jumpers:** Jumper caps are inserted onto the physical DIAG header pins adjacent to driver sockets M1 and M3 to route the hardware StallGuard signal directly to the MCU processor.
+*   **Physical Endstop Routing:** Physical microswitches or proximity sensors are utilized for X and Y homing bounds. **Do not populate the physical DIAG jumpers** on the Octopus Max EZ board for slots M1 through M4, as StallGuard sensorless homing is disabled in favor of hardware switches.
 *   **Voltage Isolation Constraints:** The Z-axis and Extruder stepper motors are strictly isolated on the 24V rail. Running them at 55V offers no performance benefit at low RPMs and introduces extreme thermal heat-soak risk into the compact aluminum toolhead/filament path.
 
 ---
@@ -150,7 +150,7 @@ enable_pin: !PC7
 rotation_distance: 40
 microsteps: 16
 full_steps_per_rotation: 200
-endstop_pin: tmc5160_stepper_x:virtual_endstop
+endstop_pin: ^PF0    # Physical hardware endstop switch connected to PF0 (Pull-up enabled)
 position_min: -24    # Maximum physical left overtravel bound of the 450mm X rail
 position_endstop: 0
 position_max: 380    # Total physical carriage limit relative to homed zero reference
@@ -164,7 +164,6 @@ sense_resistor: 0.050        # ⚠️ CRITICAL CORRECTED VALUE FOR BTT RGB PRO D
 run_current: 1.75
 interpolate: False
 stealthchop_threshold: 0     # SpreadCycle forced for maximum tracking torque
-driver_SGT: 1                # StallGuard threshold for sensorless homing
 
 # --- STEPPER X1 (Rear-Right AWD Motor - Slot M2) ---
 [stepper_x1]
@@ -193,7 +192,7 @@ enable_pin: !PA5
 rotation_distance: 40
 microsteps: 16
 full_steps_per_rotation: 200
-endstop_pin: tmc5160_stepper_y:virtual_endstop
+endstop_pin: ^PF1    # Physical hardware endstop switch connected to PF1 (Pull-up enabled)
 position_min: -10    # Allows small forward clearance overtravel
 position_endstop: 375 # Backstop boundary homing baseline targeting the 450mm Y rail
 position_max: 375
@@ -207,7 +206,6 @@ sense_resistor: 0.050
 run_current: 1.75
 interpolate: False
 stealthchop_threshold: 0
-driver_SGT: 1
 
 # --- STEPPER Y1 (Rear-Left AWD Motor - Slot M4) ---
 [stepper_y1]
@@ -352,8 +350,7 @@ algorithm: bicubic
 
 ---
 
-## 🦾 7. Core Automated Calibration & Print Start Macros
-Add these custom automation macros directly to your `macros.cfg` file or append them to the end of `printer.cfg`. They handle your Cartographer Touch homing logic, execute localized adaptive meshes over your printed parts, and manage the left-side off-bed purge sequence.
+## 🦾 7. Core Automated Calibration & Print Start MacrosAdd these custom automation macros directly to your macros.cfg file or append them to the end of printer.cfg. They handle your Cartographer Touch homing logic, execute localized adaptive meshes over your printed parts, and manage the left-side off-bed purge sequence.
 
 ```ini
 #####################################################################
@@ -361,8 +358,7 @@ Add these custom automation macros directly to your `macros.cfg` file or append 
 #####################################################################
 
 [gcode_macro START_PRINT]
-gcode:
-# --- Establish Configuration Parameters ---
+gcode:# --- Establish Configuration Parameters ---
 {% set BED_TEMP = params.BED|default(100)|float %}
 {% set EXTRUDER_TEMP = params.EXTRUDER|default(240)|float %}
 
@@ -397,7 +393,6 @@ gcode:
 SAVE_GCODE_STATE NAME=clean_nozzle_state
 G90
 M117 Purging Filament...
-
 # --- Position over the nitjsefni Left Purge Bucket ---
 G0 X-22 Y15 Z15 F24000       # Align nozzle tip directly inside the custom ASA arm receptacle
 G92 E0                       # Reset extrusion metric
@@ -437,4 +432,7 @@ M84                          # Disable all motor current lines (prevents frame h
 
 ---
 
-## ⚠️ 8. Critical CAD Constraints & Assembly Verification ChecklistZ-Axis Top Clearance: When the bed frame drives to maximum Z-height (nozzle touching the bed surface), ensure the top tips of the unconstrained 500mm lead screws (ending at ~Z=540mm) safely clear the underside of the moving Monolith AWD gantry blocks.DoomCube Panel Offsets: Because the 4420 frame steps outward by an extra 20mm relative to standard Voron 2020 frame profiles, the outer DoomCube panel corner brackets and hinge blocks must be customized in CAD to accommodate the extra 40mm mounting face.X/Y-Axis Carriage Limits: Your travel limits are bounded directly by your 450mm rail configurations. Do not force manual moves beyond X: -24 or Y: 375, as the linear rail blocks will drive directly into physical hardware barriers.
+## ⚠️ 8. Critical CAD Constraints & Assembly Verification Checklist
+1. Z-Axis Top Clearance: When the bed frame drives to maximum Z-height (nozzle touching the bed surface), ensure the top tips of the unconstrained 500mm lead screws (ending at ~Z=540mm) safely clear the underside of the moving Monolith AWD gantry blocks.
+1. DoomCube Panel Offsets: Because the 4420 frame steps outward by an extra 20mm relative to standard Voron 2020 frame profiles, the outer DoomCube panel corner brackets and hinge blocks must be customized in CAD to accommodate the extra 40mm mounting face.
+1. X/Y-Axis Carriage Limits: Your travel limits are bounded directly by your 450mm rail configurations. Do not force manual moves beyond X: -24 or Y: 375, as the linear rail blocks will drive directly into physical hardware barriers.
