@@ -76,9 +76,11 @@ The brain and power infrastructure utilizes a split-bus strategy to safely mix h
 ### Physical Wiring Topology & Terminal Isolation
 Because the Octopus Max EZ organizes its high-power paths into discrete, isolated block sectors, power lines are routed into three completely separate input terminal clusters on the board:
 
+```
 [Mean Well RS-25-5]  ---> (5V Output)  --->  DCIN Terminal (Logic Bus)
 [Mean Well UHP-200-24] ---> (24V Output) --->  MOTOR_M5-M8 Power Input Bank (Z-Axis & Extruder)
 [Mean Well UHP-200-55] ---> (55V Output) --->  MOTOR_M1-M4 Power Input Bank (AWD Gantry Only)
+```
 
 *   **⚠️ Unified Grounding Protocol:** The Negative (V-) terminals of all three Mean Well power supplies are wired together with a heavy-gauge jumper wire to create a single, unified reference ground across the entire machine chassis. Leaving the supplies unbonded will drop the tmc5160 reference baseline, causing erratic positioning errors or hardware damage.
 *   **Driver Jumper Mapping:** The Octopus Max EZ features pinless driver routing logic; no manual jumper caps are required beneath the EZ5160 drivers to activate SPI communication.
