@@ -350,7 +350,8 @@ algorithm: bicubic
 
 ---
 
-## 🦾 7. Core Automated Calibration & Print Start MacrosAdd these custom automation macros directly to your macros.cfg file or append them to the end of printer.cfg. They handle your Cartographer Touch homing logic, execute localized adaptive meshes over your printed parts, and manage the left-side off-bed purge sequence.
+## 🦾 7. Core Automated Calibration & Print Start Macros
+Add these custom automation macros directly to your macros.cfg file or append them to the end of printer.cfg. They handle your Cartographer Touch homing logic, execute localized adaptive meshes over your printed parts, and manage the left-side off-bed purge sequence.
 
 ```ini
 #####################################################################
