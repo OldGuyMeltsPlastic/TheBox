@@ -234,7 +234,11 @@ mesh_min: 25, 25
 mesh_max: 330, 330
 probe_count: 15, 15
 algorithm: bicubic
-Use code with caution.🦾 7. Core Automated Calibration & Print Start MacrosAdd these custom automation macros directly to your macros.cfg file or append them to the end of printer.cfg. They handle your Cartographer Touch homing logic, execute localized adaptive meshes over your printed parts, and manage the left-side off-bed purge sequence.ini#####################################################################
+
+
+🦾 7. Core Automated Calibration & Print Start MacrosAdd these custom automation macros directly to your macros.cfg file or append them to the end of printer.cfg. They handle your Cartographer Touch homing logic, execute localized adaptive meshes over your printed parts, and manage the left-side off-bed purge sequence.
+
+ini#####################################################################
 # 🦾 SYSTEM PRINT CONTROL WORKFLOWS
 #####################################################################
 
@@ -311,4 +315,5 @@ gcode:
     
     M117 Print Complete.
     M84                          # Disable all motor current lines (prevents frame holding heat)
-Use code with caution.⚠️ 8. Critical CAD Constraints & Assembly Verification ChecklistZ-Axis Top Clearance: When the bed frame drives to maximum Z-height (nozzle touching the bed surface), ensure the top tips of the unconstrained 500mm lead screws (ending at ~Z=540mm) safely clear the underside of the moving Monolith AWD gantry blocks.DoomCube Panel Offsets: Because the 4420 frame steps outward by an extra 20mm relative to standard Voron 2020 frame profiles, the outer DoomCube panel corner brackets and hinge blocks must be customized in CAD to accommodate the extra 40mm mounting face.X/Y-Axis Carriage Limits: Your travel limits are bounded directly by your 450mm rail configurations. Do not force manual moves beyond X: -24 or Y: 375, as the linear rail blocks will drive directly into physical hardware barriers.
+
+⚠️ 8. Critical CAD Constraints & Assembly Verification ChecklistZ-Axis Top Clearance: When the bed frame drives to maximum Z-height (nozzle touching the bed surface), ensure the top tips of the unconstrained 500mm lead screws (ending at ~Z=540mm) safely clear the underside of the moving Monolith AWD gantry blocks.DoomCube Panel Offsets: Because the 4420 frame steps outward by an extra 20mm relative to standard Voron 2020 frame profiles, the outer DoomCube panel corner brackets and hinge blocks must be customized in CAD to accommodate the extra 40mm mounting face.X/Y-Axis Carriage Limits: Your travel limits are bounded directly by your 450mm rail configurations. Do not force manual moves beyond X: -24 or Y: 375, as the linear rail blocks will drive directly into physical hardware barriers.
