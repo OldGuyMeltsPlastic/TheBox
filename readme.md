@@ -1,4 +1,4 @@
-# Custom DoomCube-Trident 355³ AWD Build Log
+# TheBox - A Custom DoomCube-Trident 355³ AWD Build Log
 
 This repository documents the engineering, CAD optimization, physical wiring architecture, and initial Klipper firmware configuration for a highly modified, heavy-duty, custom-sized **Voron Trident** variant integrated into a **DoomCube** enclosure ecosystem. The design targets a true cubic build volume of **355mm x 355mm x 355mm** with optimized toolhead overtravel for localized sub-systems.
 
