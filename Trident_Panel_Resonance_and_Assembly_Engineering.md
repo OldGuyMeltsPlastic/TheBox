@@ -29,7 +29,7 @@ The enclosure panel assembly consists of a 3-layer hybrid structural/insulation 
 ├───────────────────────────────────────────────────────────────────┤
 │ Layer 2:    6mm Cork (Viscoelastic Damping Layer)                 │
 ├───────────────────────────────────────────────────────────────────┤
-│ Layer 3:    18mm PIR Foam (Polyisocyanurate Thermal Barrier)       │
+│ Layer 3:    18mm PIR Foam (Polyisocyanurate Thermal Barrier)      │
 └─────┬─────────────────────────────────────────────────────────────┘
       │
 [ Heated Print Chamber (Reflective Foil Inner Face) ]
